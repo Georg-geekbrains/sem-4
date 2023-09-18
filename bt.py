@@ -1,12 +1,26 @@
 class Node:
+    """"Представляет узел в бинарном дереве.
 
+    Атрибуты:
+        value (any): Значение, хранящееся в узле.
+        left (Node): Ссылка на левый дочерний узел (по умолчанию None).
+        right (Node): Ссылка на правый дочерний узел (по умолчанию None).
+    """
     def __init__(self, value):
-          
+        """Инициализация нового узла с заданным значением.
+        Параметры:
+        value (any): Значение, которое будет присвоено узлу.
+        """
         self.value = value
         self.left = None
         self.right = None
 
     def __str__(self):
+        """Возвращает строковое представление узла.
+
+            Returns:
+            str: Строковое представление узла.
+        """
         res = f'значение нашего узла: {self.value}'
         if self.left:
             res += f' значение левого: {self.left.value}'
@@ -16,11 +30,26 @@ class Node:
 
 
 class BinaryTree:
+    """Представляет дерево двоичного поиска.
+
+    Атрибуты:
+        root (Node): Ссылка на корневой узел двоичного дерева.
+    """
 
     def __init__(self, root_value):
+        """Инициализация нового бинарного дерева с заданным значением корня.
+
+        Параметры:
+            root_value (any): Значение, которое будет присвоено корневому узлу.
+        """
         self.root = Node(root_value)
 
     def add(self, value):
+        """Добавляет в бинарное дерево новый узел с заданным значением.
+
+        Параметры:
+            value (any): Значение, которое должно быть добавлено в дерево.
+        """
         res = self.search(self.root, value)
 
         if res[0] is None:
@@ -33,6 +62,13 @@ class BinaryTree:
             print("Хорош")
 
     def search(self, node, value, parent=None):
+        """Поиск значения в бинарном дереве.
+
+        Параметры:
+            node (Node): Текущий исследуемый узел.
+            value (any): Значение для поиска.
+            parent (Node): Родительский узел текущего узла (по умолчанию None).
+        """
         if node == None or value == node.value:
             return node, parent
         if value > node.value:
@@ -41,6 +77,14 @@ class BinaryTree:
             return self.search(node.left, value, node)
     
     def count_elements(self, node):
+        """Подсчитывает общее количество элементов в бинарном дереве.
+
+        Параметры:
+            node (Node): Корневой узел поддерева, для которого нужно подсчитать элементы.
+
+        Возвращает:
+            int: Количество элементов в поддереве.
+        """
         if node is None:
             return 0
         else:
@@ -51,13 +95,28 @@ class BinaryTree:
             return 1 + left_count + right_count
 
     def get_element_count(self):
-        
+        """Получение общего количества элементов в бинарном дереве.
+
+        Returns:
+            int: Количество элементов в бинарном дереве.
+        """
         return self.count_elements(self.root)
 
     def delete(self, value):
+        """Удаление узла с заданным значением из двоичного дерева.
+
+        Параметры:
+            value (any): Значение, которое должно быть удалено из дерева.
+        """
         self.root, _ = self._delete_recursive(self.root, value)
 
     def _delete_recursive(self, node, value):
+        """Рекурсивно удаляет узел с заданным значением из бинарного дерева.
+
+        Параметры:
+            node (Node): Текущий исследуемый узел.
+            value (any): Удаляемое значение.
+        """
         if node is None:
             
             return node, None
@@ -85,17 +144,34 @@ class BinaryTree:
         return node, None
 
     def _find_min(self, node):
+        """Находит узел с минимальным значением в поддереве.
+
+        Параметры:
+            node (Node): Корневой узел поддерева для поиска.
+
+        Возвращает:
+            Node (Узел): Узел с минимальным значением.
+        """
         while node.left is not None:
             node = node.left
         return node
     
     
     def display_tree(self):
+        """Отображение бинарного дерева """
         tree_lines, *_ = self._display_vertical(self.root)
         for line in tree_lines:
             print(line)
 
     def _display_vertical(self, node):
+        """Рекурсивно строит вертикально выровненное представление бинарного дерева.
+
+        Параметры:
+            node (Node): Текущий рассматриваемый узел.
+
+        Надо допилить    
+
+        """
 
         if node is None:
             return [], 0, 0, 0, 0
@@ -126,7 +202,7 @@ class BinaryTree:
         lines = []
         height = max(left_height, middle_height, right_height)
 
-    # Adjust the formatting to align the tree to the right by adding spaces before the lines
+    
         root_line = ' ' * (width - root_end) + middle_line
 
         if left_height > 0:
